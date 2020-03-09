@@ -31,10 +31,8 @@ positions = []
 for i in range(6):
     positions.append(120*i + blackspace + indent)
 
-wave = 10
-
-for i in range(6):
-    zombies.append(zombie.Zombie(screen[0] + 150, positions[i]))
+# for i in range(6):
+#     zombies.append(zombie.Zombie(screen[0] + 150, positions[i]))
 
 p1 = player.Player(200, screen[1]/2, 100, 100)
 
@@ -60,8 +58,16 @@ def redrawGameWindow():
     for bullet in bullets:
         for zm in zombies:
             if bullet.collide(zm):
+                # TODO remove item from list in reverse order
+                # bug here
                 bullets.pop(bullets.index(bullet))
                 zm.health -= 25
+
+    # for i in range(len(bullets)-1):
+    #     for j in range(len(zombies)-1):
+    #         if bullets[i].collide(zombies[j]):
+    #             bullets.pop(i)
+    #             zombies[j].health -= 25
     
     pygame.display.update()
 
@@ -103,8 +109,15 @@ def eventHandling():
         p1.y += p1.vel
 
 def main():
+    wave = 0
     while True:
         clock.tick(14)
+
+        if len(zombies) == 0:
+            wave += 1
+            for i in range(wave*2+4):
+                zombies.append(zombie.Zombie(screen[0] + 150, random.choice(positions)))
+
         eventHandling()
         redrawGameWindow()
 
