@@ -7,7 +7,7 @@ class Zombie(object):
         self.y = y
         self.w = 80
         self.h = 80
-        self.vel = random.randint(3, 7)
+        self.vel = random.randint(3, 10)
         self.walkcount = random.randint(0, 7)
         self.health = 100
         self.isDead = False

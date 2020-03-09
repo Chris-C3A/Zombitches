@@ -15,8 +15,7 @@ pygame.init()
 blackspace = 80
 indent = 20
 screen = (1280, 720+blackspace)
-
-# font = pygame.font.SysFont("comicsansms", 72)
+ammo = 300
 
 clock = pygame.time.Clock()
 win = pygame.display.set_mode(screen)
@@ -55,13 +54,17 @@ def redrawGameWindow():
             bullets.pop(bullets.index(bullet))
 
     # handling collision
-    for bullet in bullets:
-        for zm in zombies:
+    for zm in zombies:
+        for bullet in bullets:
             if bullet.collide(zm):
                 # TODO remove item from list in reverse order
                 # bug here
                 bullets.pop(bullets.index(bullet))
-                zm.health -= 25
+                zm.health -= bullet.damage
+
+    font = pygame.font.Font('freesansbold.ttf', 20)
+    text = font.render("Ammo: " + str(ammo), True, (0, 0, 0))
+    win.blit(text, (50, 100))
 
     # for i in range(len(bullets)-1):
     #     for j in range(len(zombies)-1):
@@ -73,13 +76,14 @@ def redrawGameWindow():
 
 
 def eventHandling():
+    global ammo
     x,y = pygame.mouse.get_pos()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
 
-        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and ammo > 0:
             facing = 0
             if p1.right:
                 facing = 1
@@ -87,6 +91,7 @@ def eventHandling():
                 facing = -1
 
             bullets.append(projectile.Projectile(int(p1.x + p1.w/2), int(p1.y + p1.h/2), facing))
+            ammo -= 1
 
     keys = pygame.key.get_pressed()
 
@@ -109,14 +114,21 @@ def eventHandling():
         p1.y += p1.vel
 
 def main():
-    wave = 0
+    wave = 19
     while True:
         clock.tick(14)
 
         if len(zombies) == 0:
             wave += 1
             for i in range(wave*2+4):
-                zombies.append(zombie.Zombie(screen[0] + 150, random.choice(positions)))
+                count = 0
+                y = random.choice(positions)
+                for zm in zombies:
+                    if y == zm.y:
+                        count += 1
+
+                x = screen[0] + 150 * count
+                zombies.append(zombie.Zombie(x, y))
 
         eventHandling()
         redrawGameWindow()
