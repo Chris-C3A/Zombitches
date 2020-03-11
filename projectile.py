@@ -12,6 +12,8 @@ class Projectile(object):
 
     def draw(self, win):
         pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
+        # for i in range(50):
+            # pygame.draw.circle(win, self.color, (self.x,self.y), self.radius)
         self.x += self.vel * self.facing
     
     def collide(self, enemy):
