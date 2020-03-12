@@ -83,15 +83,15 @@ def eventHandling():
         if event.type == pygame.QUIT:
             sys.exit()
 
-        # if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and ammo > 0:
-        #     facing = 0
-        #     if p1.right:
-        #         facing = 1
-        #     elif p1.left:
-        #         facing = -1
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE and ammo > 0:
+            facing = 0
+            if p1.right:
+                facing = 1
+            elif p1.left:
+                facing = -1
 
-        #     bullets.append(projectile.Projectile(int(p1.x + p1.w/2), int(p1.y + p1.h/2), facing))
-        #     ammo -= 1
+            bullets.append(projectile.Projectile(int(p1.x + p1.w/2), int(p1.y + p1.h/2), facing))
+            ammo -= 1
 
     keys = pygame.key.get_pressed()
 
@@ -113,18 +113,18 @@ def eventHandling():
     elif keys[pygame.K_DOWN] and p1.y < screen[1]- p1.h - p1.vel:
         p1.y += p1.vel
 
-    if keys[pygame.K_SPACE] and ammo > 0:
-        facing = 0
-        if p1.right:
-            facing = 1
-        elif p1.left:
-            facing = -1
-        for i in range(10):
-            bullets.append(projectile.Projectile(int(p1.x + p1.w/2)+i*5, int(p1.y + p1.h/2), facing))
-            ammo -= 1
+    # if keys[pygame.K_SPACE] and ammo > 0:
+    #     facing = 0
+    #     if p1.right:
+    #         facing = 1
+    #     elif p1.left:
+    #         facing = -1
+
+    #     bullets.append(projectile.Projectile(int(p1.x + p1.w/2)+i*5, int(p1.y + p1.h/2), facing))
+    #     ammo -= 1
 
 def main():
-    wave = 19
+    wave = 1
     while True:
         clock.tick(14)
 
